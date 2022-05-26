@@ -16,6 +16,7 @@ if __name__ == '__main__':
          for i in range(4, len(cars_dumm.columns))}
 
     cars_dumm.rename(renaming, axis=1, inplace=True)
+    print(cars_dumm.head())
     #Scaling data for better performance.
     sc = StandardScaler()
     scaled = sc.fit_transform(cars_dumm.values)
@@ -25,13 +26,13 @@ if __name__ == '__main__':
     print('----y shape----',y.shape)
 
     #Precomputed parameters with optuna module for LGBM algorithm
-    parameters = {'n_estimators': 141,
-    'reg_alpha': 1.0190935218264781e-05,
-    'reg_lambda': 0.002143701064038381,
-    'num_leaves': 236,
-    'colsample_bytree': 0.5020729515174019,
-    'subsample': 0.9447570479017682,
-    'min_child_samples': 41}
+    parameters = {'n_estimators': 209,
+     'reg_alpha': 4.579761912253526e-08,
+     'reg_lambda': 0.05556953835133028,
+     'num_leaves': 101,
+     'colsample_bytree': 0.6736001169481415,
+     'subsample': 0.7741897653550532,
+     'min_child_samples': 19}
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 

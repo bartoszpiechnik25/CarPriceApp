@@ -92,7 +92,7 @@ class Tuning:
             }
             xbmrf = XGBRFRegressor(**params).fit(self.X_train, self.y_train)
             prediction = xbmrf.predict(self.X_test)
-            return np.sqrt(mean_squared_error(y_test, prediction))
+            return np.sqrt(mean_squared_error(self.y_test, prediction))
         return objective
     
     def lgbm_tunning(self):
