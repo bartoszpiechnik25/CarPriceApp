@@ -1,1 +1,0 @@
-from .read_from_user import read_data
