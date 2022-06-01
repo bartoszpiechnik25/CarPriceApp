@@ -1,7 +1,11 @@
-from train_model.read_from_user import read_data
-from joblib import load
+from read_data import ReadFromUser
+import lightgbm as lgb
 
-regression_model = load('cars_ml_model')
+model = lgb.Booster(model_file='files\lgbm_model.txt')
 
-var_predict, car_data = read_data()
-print(var_predict)
+user = ReadFromUser('files\column_names', 'files\markmodel', 'files\provinces')
+user.read_all()
+values = user.car_data()
+
+car_price = model.predict([values])
+print(car_price)
