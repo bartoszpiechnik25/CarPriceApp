@@ -2,6 +2,10 @@ import numpy as np
 from joblib import load
 
 class ReadFromUser:
+    """
+    Class reads data from user, convert it to np.array and prints out model's 
+    prediction about car price.
+    """
 
     def __init__(self, param_file, model_file, provinces_file) -> None:
         self.__columns = load(param_file)
@@ -27,8 +31,7 @@ class ReadFromUser:
                 print(element, end='\n')
             else:
                 print(element,  end= ', ')
-        print('\n')
-
+        print()
 
     def __read_mark(self):
         #marks is list containing every mark in dataset
@@ -86,7 +89,7 @@ class ReadFromUser:
         self.__user_data.append(inpt)
 
     def __read_engine(self):
-        inpt = input('Specify car engine (20=.0 is 1998): ')
+        inpt = input('Specify car engine (2.0 is equivalent to 1998): ')
 
         while not isinstance(inpt, int):
             try:
@@ -124,8 +127,10 @@ class ReadFromUser:
             
         self.__user_data.append(inpt)
 
-    def read_all(self):
-        print(len(self.__columns))
+    def __read_all(self):
+        """
+        This function combine all other read functions and read data from user.
+        """
         self.__read_mark()
         self.__read_model()
         self.__read_year()
@@ -135,18 +140,18 @@ class ReadFromUser:
         self.__read_province_city(city=False)
         self.__read_province_city(city=True)
     
-    def car_data(self):
+    def __car_data(self):
+        """
+        This function create array from specified user data for further use
+        with machine learning model.
+        """
         attributes = ['mark', 'model', 'year', 'mileage', 'fuel_type',
         'vol_engine','province', 'city']
-
-        print(f'Before dummy {len(self.__columns)}')
 
         dummy = dict(zip(self.__columns, np.zeros(shape=(len(self.__columns)),
          dtype=np.int32)))
 
         # dummy = {str(self.__columns[i]): 0 for i in range(len(self.__columns))}
-
-        data = dict(zip(attributes[:-1], self.__user_data[:-1]))
 
         for i in range(len(attributes) - 1):
             if isinstance(self.__user_data[i], int):
@@ -156,16 +161,34 @@ class ReadFromUser:
         
         if self.__user_data[-1] in dummy.keys():
             dummy[self.__user_data[-1]] = 1
-        
-        return np.fromiter(dummy.values(), dtype=np.int32)
 
+        self.__mldata = np.fromiter(dummy.values(), dtype=np.int32)
+        
+    def create_user_data(self):
+        """
+        This function read data from user and create np.array() from the data
+        with the same shape as model's input data.
+        """
+        self.__read_all()
+        self.__car_data()
+
+    def show_results(self, machine_learning_model):
+        """
+        This function displays user car data and model's car price prediction.
+        """
+        to_print = [
+            f'Estimated price of {self.__user_data[0]} model:', 
+            f'{self.__user_data[1]} produced in',
+            f'{self.__user_data[2]} with mileage {self.__user_data[3]},',
+            f'fuel type {self.__user_data[4]} and engine volume',
+            f'{self.__user_data[5]} is',
+            f'{int(machine_learning_model.predict([self.__mldata]))} zł.'   
+        ]
+        print(' '.join(to_print))
 
 
 if __name__ == '__main__':
 
     read = ReadFromUser('files\column_names', 'files\markmodel',
      'files\provinces')
-    read.read_all()
-    val = read.car_data()
-    print(f'Returned {len(val)}')
-    print(val)
+    read.create_user_data()
