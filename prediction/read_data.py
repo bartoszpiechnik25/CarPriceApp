@@ -71,6 +71,8 @@ class ReadFromUser:
         while not isinstance(inpt, int):
             try:
                 inpt = int(inpt)
+                if inpt <= 0:
+                    raise ValueError
             except ValueError:
                 print('Invalid value!\n')
                 inpt = input('Specify correct number: ')
@@ -83,6 +85,8 @@ class ReadFromUser:
         while not isinstance(inpt, int):
             try:
                 inpt = int(inpt)
+                if inpt <= 0:
+                    raise ValueError
             except ValueError:
                 print('Invalid value!\n')
                 inpt = input('Specify correct number: ')
@@ -94,6 +98,8 @@ class ReadFromUser:
         while not isinstance(inpt, int):
             try:
                 inpt = int(inpt)
+                if inpt <= 0:
+                    raise ValueError
             except ValueError:
                 print('Invalid value!\n')
                 inpt = input('Specify correct number: ')

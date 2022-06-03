@@ -8,7 +8,7 @@ from joblib import dump
 
 if __name__ == '__main__':
     #Load and prepare data for machine learning model.
-    cars = pd.read_csv('files\Car_Prices_Poland_Kaggle.csv')
+    cars = pd.read_csv('files/Car_Prices_Poland_Kaggle.csv')
     cars.drop(columns=['Unnamed: 0', 'generation_name'], axis=1, inplace=True)
     cars_dumm = pd.get_dummies(data=cars,
      columns=['mark', 'model','fuel','city','province'])
