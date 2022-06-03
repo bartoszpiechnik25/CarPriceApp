@@ -20,6 +20,7 @@ if __name__ == '__main__':
     y = cars_dumm['price'].values
     cars_dumm.drop('price',inplace=True, axis=1)
 
+    # Remove duplicates
     cars_dumm = cars_dumm.loc[:,~cars_dumm.columns.duplicated()]
 
     print(cars_dumm.shape)
@@ -50,7 +51,6 @@ if __name__ == '__main__':
     print(r2_score(y_test, predicition))
     print("Predicted:", lgbm.predict([X[96, :]],
      num_iteration=lgbm.best_iteration_), y[96])
-#     dump(lgbm, 'files\cars_ml_model')
-    lgbm.booster_.save_model('files\lgbm_model.txt',
+    lgbm.booster_.save_model('CarPriceApp/files/lgbm_model.txt',
      num_iteration=lgbm.best_iteration_)
-    dump(cars_dumm.columns, 'files\column_names')
+    dump(cars_dumm.columns, 'CarPriceApp/files/column_names')
